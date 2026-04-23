@@ -3,86 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sultan's Professional Invoice Generator</title>
+    <title>Sultan's Single-Page Invoice Generator</title>
     <style>
         :root { --primary-color: #6f42c1; --bg-gray: #f4f7f6; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; background: #e0e0e0; }
+        
+        /* Layout */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; background: #e0e0e0; height: 100vh; overflow: hidden; }
         
         /* Editor Sidebar */
-        #editor { width: 400px; height: 100vh; background: #2c3e50; color: white; padding: 20px; overflow-y: auto; box-sizing: border-box; }
-        #editor h2 { border-bottom: 1px solid #555; padding-bottom: 10px; font-size: 18px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 12px; color: #bbb; margin-bottom: 5px; }
-        input, textarea, select { width: 100%; padding: 8px; border-radius: 4px; border: none; margin-bottom: 5px; }
-        button { width: 100%; padding: 10px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        button:hover { opacity: 0.9; }
+        #editor { width: 380px; background: #2c3e50; color: white; padding: 20px; overflow-y: auto; box-sizing: border-box; flex-shrink: 0; }
+        #editor h2 { border-bottom: 1px solid #555; padding-bottom: 10px; font-size: 18px; margin-top: 20px; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 11px; color: #bbb; margin-bottom: 4px; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 8px; border-radius: 4px; border: none; margin-bottom: 5px; box-sizing: border-box; font-family: inherit; }
+        button { width: 100%; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px; font-size: 14px; }
+        button:hover { background: #5a32a3; }
 
         /* Invoice Preview Area */
-        #preview-container { flex-grow: 1; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
-        #invoice-paper { width: 800px; min-height: 1000px; background: white; padding: 50px; box-shadow: 0 0 20px rgba(0,0,0,0.2); position: relative; }
+        #preview-container { flex-grow: 1; display: flex; justify-content: center; padding: 20px; overflow-y: auto; background: #525659; }
         
-        /* Invoice Styling */
-        .inv-header { border-bottom: 4px solid var(--primary-color); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        #display-logo { max-width: 150px; max-height: 80px; }
-        .inv-title { font-size: 24px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; }
-        .inv-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg-gray); padding: 15px; border-radius: 8px; margin-bottom: 30px; }
-        .section-title { font-size: 16px; font-weight: bold; color: var(--primary-color); border-bottom: 1px solid #eee; margin: 25px 0 10px; text-transform: uppercase; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        /* A4 Sizing and Page Break Control */
+        #invoice-paper { 
+            width: 210mm; 
+            height: 297mm; 
+            background: white; 
+            padding: 20mm; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.4); 
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Invoice Content Styling */
+        .inv-header { border-bottom: 4px solid var(--primary-color); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        #display-logo { max-width: 150px; max-height: 70px; object-fit: contain; }
+        .inv-title { font-size: 22px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; text-align: right; }
+        .inv-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg-gray); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+        .section-title { font-size: 14px; font-weight: bold; color: var(--primary-color); border-bottom: 1px solid #eee; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+        ul { margin: 0; padding-left: 20px; font-size: 14px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px; }
         table th { background: var(--primary-color); color: white; text-align: left; padding: 10px; }
         table td { border: 1px solid #eee; padding: 10px; }
-        .bank-box { margin-top: 30px; padding: 20px; background: var(--bg-gray); border-radius: 8px; border: 1px dashed var(--primary-color); }
+        .bank-box { margin-top: auto; padding: 15px; background: var(--bg-gray); border-radius: 8px; border: 1px dashed var(--primary-color); font-size: 13px; }
         
+        /* Print Overrides */
         @media print {
-            #editor { display: none; }
-            #preview-container { padding: 0; background: white; }
-            #invoice-paper { box-shadow: none; border: none; width: 100%; margin: 0; }
-            body { background: white; }
+            body { background: white; overflow: visible; }
+            #editor, .no-print { display: none !important; }
+            #preview-container { padding: 0; background: white; overflow: visible; display: block; }
+            #invoice-paper { 
+                box-shadow: none; 
+                margin: 0; 
+                width: 100%; 
+                height: 100%; 
+                page-break-after: avoid; 
+                page-break-before: avoid;
+            }
+            @page { size: A4; margin: 0; }
         }
     </style>
 </head>
 <body>
 
     <div id="editor">
-        <h2>Invoice Editor</h2>
-        
+        <h2 style="margin-top:0">Settings</h2>
         <div class="input-group">
-            <label>Business Logo</label>
+            <label>Upload Logo</label>
             <input type="file" id="logoInput" accept="image/*">
         </div>
 
+        <h2>Project Details</h2>
         <div class="input-group">
-            <label>Project Title</label>
+            <label>Project Name</label>
             <input type="text" id="in-project" value="GameForge (Android & Wear OS)" oninput="update()">
         </div>
-
-        <div class="input-group">
-            <label>Developer Name</label>
-            <input type="text" id="in-dev" value="Sultan" oninput="update()">
-        </div>
-
         <div class="input-group">
             <label>Client Name</label>
             <input type="text" id="in-client" value="Abdi" oninput="update()">
         </div>
-
         <div class="input-group">
-            <label>Currency & Price</label>
+            <label>Price</label>
             <input type="text" id="in-price" value="$160.00 USD" oninput="update()">
         </div>
-
         <div class="input-group">
-            <label>Scope of Work (Bulleted)</label>
-            <textarea id="in-scope" rows="5" oninput="update()">
-Full implementation of Mobile & Wearable app.
+            <label>Deadline</label>
+            <input type="text" id="in-deadline" value="May 1, 2026" oninput="update()">
+        </div>
+        <div class="input-group">
+            <label>Scope (One per line)</label>
+            <textarea id="in-scope" rows="4" oninput="update()">Full implementation of Mobile & Wearable app.
 Hybrid persistence: Firebase & Room DB.
 Real-time chat & Voice notes.
-WCAG-compliant accessibility features.
-            </textarea>
-        </div>
-
-        <div class="input-group">
-            <label>Deadline Date</label>
-            <input type="text" id="in-deadline" value="May 1, 2026" oninput="update()">
+WCAG-compliant accessibility features.</textarea>
         </div>
 
         <h2>Bank Details</h2>
@@ -95,37 +108,35 @@ WCAG-compliant accessibility features.
             <input type="text" id="in-iban" value="PK17UNIL0109000341908508" oninput="update()">
         </div>
 
-        <button onclick="window.print()">Export to PDF</button>
+        <button onclick="window.print()">GENERATE PDF</button>
+        <p style="font-size: 10px; color: #888; text-align: center; margin-top: 15px;">Tip: In print settings, set "Margins" to "None".</p>
     </div>
 
     <div id="preview-container">
         <div id="invoice-paper">
             <div class="inv-header">
-                <div>
-                    <img id="display-logo" src="https://via.placeholder.com/150x50?text=Your+Logo" alt="Logo">
-                </div>
+                <img id="display-logo" src="https://via.placeholder.com/150x60?text=Logo+Space" alt="Logo">
                 <div class="inv-title" id="out-title">INVOICE: GameForge</div>
             </div>
 
             <div class="inv-meta">
                 <div>
-                    <p><strong>Developer:</strong> <span id="out-dev">Sultan</span></p>
+                    <p><strong>Developer:</strong> Saad Abdur Razzaq</p>
                     <p><strong>Client:</strong> <span id="out-client">Abdi</span></p>
                 </div>
                 <div style="text-align: right;">
-                    <p><strong>Date:</strong> <span id="out-date">April 24, 2026</span></p>
+                    <p><strong>Date:</strong> April 24, 2026</p>
                     <p><strong>Deadline:</strong> <span id="out-deadline">May 1, 2026</span></p>
                 </div>
             </div>
 
-            <div class="section-title">Scope of Work</div>
-            <ul id="out-scope">
-                </ul>
+            <div class="section-title">Project Scope</div>
+            <ul id="out-scope"></ul>
 
-            <div class="section-title">Payment Summary</div>
+            <div class="section-title">Financial Summary</div>
             <table>
                 <thead>
-                    <tr><th>Description</th><th>Total</th></tr>
+                    <tr><th>Service Item</th><th style="width:150px">Total</th></tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -136,39 +147,34 @@ WCAG-compliant accessibility features.
             </table>
 
             <div class="bank-box">
-                <h3 style="margin-top:0; font-size:14px; color:#333;">BANK TRANSFER DETAILS</h3>
-                <p style="margin:5px 0;"><strong>Bank:</strong> <span id="out-bank">United Bank Limited</span></p>
-                <p style="margin:5px 0;"><strong>Title:</strong> <span id="out-acc-title">Saad Abdur Razzaq</span></p>
-                <p style="margin:5px 0;"><strong>IBAN:</strong> <span id="out-iban">PK17UNIL0109000341908508</span></p>
+                <h3 style="margin-top:0; font-size:13px; color:var(--primary-color); text-transform: uppercase;">Payment Instructions</h3>
+                <p style="margin:4px 0;"><strong>Bank:</strong> <span id="out-bank">United Bank Limited</span></p>
+                <p style="margin:4px 0;"><strong>Account Title:</strong> <span id="out-acc-title">Saad Abdur Razzaq</span></p>
+                <p style="margin:4px 0;"><strong>IBAN:</strong> <span id="out-iban">PK17UNIL0109000341908508</span></p>
             </div>
 
-            <div style="margin-top: 40px; font-size: 12px; color: #888; font-style: italic;">
-                * Project deliverables will be transferred upon verification of the payment above.
+            <div style="margin-top: 25px; font-size: 11px; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
+                Final source code and documentation will be released immediately upon payment confirmation. 
+                Development follows MVVM standards for academic and professional excellence.
             </div>
         </div>
     </div>
 
     <script>
         function update() {
-            // Text Variables
             document.getElementById('out-title').innerText = "INVOICE: " + document.getElementById('in-project').value;
-            document.getElementById('out-dev').innerText = document.getElementById('in-dev').value;
             document.getElementById('out-client').innerText = document.getElementById('in-client').value;
             document.getElementById('out-deadline').innerText = document.getElementById('in-deadline').value;
             document.getElementById('out-price').innerText = document.getElementById('in-price').value;
             document.getElementById('out-project-desc').innerText = document.getElementById('in-project').value + " Development";
-            
-            // Bank Variables
             document.getElementById('out-bank').innerText = document.getElementById('in-bank').value;
             document.getElementById('out-acc-title').innerText = document.getElementById('in-acc-title').value;
             document.getElementById('out-iban').innerText = document.getElementById('in-iban').value;
 
-            // Scope List
-            const scopeText = document.getElementById('in-scope').value;
             const scopeList = document.getElementById('out-scope');
             scopeList.innerHTML = "";
-            scopeText.split('\n').forEach(line => {
-                if(line.trim() !== "") {
+            document.getElementById('in-scope').value.split('\n').forEach(line => {
+                if(line.trim()) {
                     let li = document.createElement('li');
                     li.innerText = line;
                     scopeList.appendChild(li);
@@ -176,20 +182,13 @@ WCAG-compliant accessibility features.
             });
         }
 
-        // Logo Upload Handler
-        document.getElementById('logoInput').onchange = function (evt) {
-            var tgt = evt.target || window.event.srcElement,
-                files = tgt.files;
-            if (FileReader && files && files.length) {
-                var fr = new FileReader();
-                fr.onload = function () {
-                    document.getElementById('display-logo').src = fr.result;
-                }
-                fr.readAsDataURL(files[0]);
+        document.getElementById('logoInput').onchange = function (e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (event) => document.getElementById('display-logo').src = event.target.result;
+                reader.readAsDataURL(e.target.files[0]);
             }
         }
-
-        // Initialize
         update();
     </script>
 </body>
