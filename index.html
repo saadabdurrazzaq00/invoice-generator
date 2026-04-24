@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Effixly | Premium Invoice Engine</title>
+    <title>Effixly | Universal Dynamic Invoice Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
             --primary: #1a3a5f; 
@@ -13,77 +14,78 @@
             --text-gray: #94a3b8;
         }
         
-        body { font-family: 'Inter', 'Segoe UI', sans-serif; margin: 0; display: flex; background: #0f172a; height: 100vh; color: white; }
+        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; background: #0f172a; height: 100vh; color: white; overflow: hidden; }
         
-        /* --- PRO EDITOR SIDEBAR --- */
+        /* --- DYNAMIC SIDEBAR --- */
         #editor { 
-            width: 420px; 
+            width: 450px; 
             background: var(--dark-bg); 
-            padding: 30px; 
+            padding: 25px; 
             overflow-y: auto; 
             box-sizing: border-box; 
             border-right: 1px solid #334155;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+            z-index: 10;
         }
         
-        .brand-logo { font-size: 24px; font-weight: 800; margin-bottom: 30px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+        .brand-logo { font-size: 20px; font-weight: 800; margin-bottom: 25px; color: var(--accent); border-bottom: 1px solid #334155; padding-bottom: 15px; }
         .brand-logo span { color: white; }
 
-        .form-section { background: var(--editor-card); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
-        .form-section h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0; color: var(--accent); margin-bottom: 15px; }
+        .form-section { background: var(--editor-card); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #334155; }
+        .form-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-top: 0; color: var(--accent); margin-bottom: 12px; display: flex; justify-content: space-between; }
         
-        label { display: block; font-size: 11px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .full { grid-column: span 2; }
+
+        label { display: block; font-size: 10px; font-weight: 600; color: var(--text-gray); margin-bottom: 4px; text-transform: uppercase; }
         input, textarea, select { 
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; 
-            background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 15px; font-size: 13px;
-            transition: all 0.3s;
+            width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #334155; 
+            background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 10px; font-size: 12px;
         }
-        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2); }
+        input:focus { border-color: var(--accent); outline: none; }
         
         .btn-generate { 
             width: 100%; padding: 16px; background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); 
             color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; 
-            font-size: 15px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.2s;
+            font-size: 14px; text-transform: uppercase; margin-top: 10px;
         }
-        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4); }
 
-        /* --- PREVIEW AREA --- */
+        /* --- PREVIEW --- */
         #preview-container { flex-grow: 1; display: flex; justify-content: center; padding: 40px; overflow-y: auto; background: #334155; }
         
         #invoice-paper { 
-            width: 210mm; min-height: 297mm; background: white; padding: 25mm; 
+            width: 210mm; min-height: 297mm; background: white; padding: 20mm; 
             box-shadow: 0 0 50px rgba(0,0,0,0.5); box-sizing: border-box; color: #1e293b;
             display: flex; flex-direction: column; position: relative;
         }
         
-        /* --- INVOICE DESIGN --- */
-        .inv-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; }
-        #display-logo { max-width: 180px; filter: grayscale(100%) contrast(150%); }
+        /* --- INVOICE STYLE --- */
+        .inv-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        #display-logo { max-width: 160px; max-height: 80px; object-fit: contain; }
         .inv-type { text-align: right; }
-        .inv-type h1 { margin: 0; font-size: 40px; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
+        .inv-type h1 { margin: 0; font-size: 35px; font-weight: 800; color: var(--primary); }
         
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .address-box h3 { font-size: 12px; text-transform: uppercase; color: var(--text-gray); border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px; }
-        .address-box p { margin: 0; font-size: 14px; line-height: 1.5; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 30px; }
+        .address-box h3 { font-size: 11px; text-transform: uppercase; color: var(--text-gray); border-bottom: 2px solid #f1f5f9; padding-bottom: 5px; margin-bottom: 10px; }
+        .address-box p { margin: 0; font-size: 13px; line-height: 1.6; }
 
-        table { width: 100%; border-collapse: collapse; margin: 30px 0; }
-        th { background: #f8fafc; text-align: left; padding: 15px; font-size: 12px; text-transform: uppercase; color: var(--text-gray); border-bottom: 2px solid var(--primary); }
-        td { padding: 20px 15px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #f8fafc; text-align: left; padding: 12px; font-size: 11px; text-transform: uppercase; color: var(--text-gray); border-bottom: 2px solid var(--primary); }
+        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
         
-        .total-box { margin-left: auto; width: 250px; margin-top: 20px; }
-        .total-row { display: flex; justify-content: space-between; padding: 10px 0; font-weight: 700; font-size: 18px; color: var(--primary); border-top: 2px solid var(--primary); }
+        .total-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+        .total-content { width: 200px; display: flex; justify-content: space-between; padding: 10px; background: #f8fafc; border-top: 3px solid var(--primary); font-weight: 800; font-size: 16px; }
 
-        .banking-details { background: #f8fafc; padding: 25px; border-radius: 12px; margin-top: auto; border-left: 5px solid var(--primary); }
-        .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 13px; }
-        .bank-item label { color: var(--text-gray); font-size: 10px; margin-bottom: 4px; }
-        .bank-item span { font-weight: 700; color: var(--primary); }
+        .banking-details { background: #f8fafc; padding: 20px; border-radius: 8px; margin-top: auto; border-left: 5px solid var(--primary); }
+        .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 12px; }
+        .bank-item label { color: var(--text-gray); font-size: 9px; text-transform: uppercase; font-weight: 800; }
+        .bank-item span { font-weight: 700; color: var(--primary); display: block; }
 
-        #out-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #f1f5f9; text-align: center; font-style: italic; font-size: 13px; color: var(--text-gray); }
+        #out-footer { margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; font-style: italic; font-size: 12px; color: var(--text-gray); }
 
         @media print {
             #editor { display: none; }
-            #preview-container { padding: 0; background: white; }
-            #invoice-paper { box-shadow: none; width: 100%; }
+            #preview-container { padding: 0; background: white; overflow: visible; }
+            #invoice-paper { box-shadow: none; width: 100%; margin: 0; }
             @page { size: A4; margin: 0; }
         }
     </style>
@@ -91,48 +93,88 @@
 <body>
 
     <div id="editor">
-        <div class="brand-logo">⚡ EFFIXLY <span>INVOICER</span></div>
+        <div class="brand-logo">⚡ EFFIXLY <span>DYNAMIC</span></div>
         
         <div class="form-section">
-            <h2>Client Info</h2>
-            <label>Company Name</label>
+            <h2>1. Identity & Branding</h2>
+            <div class="row">
+                <div class="full">
+                    <label>Logo Upload</label>
+                    <input type="file" id="logoInput" accept="image/*">
+                </div>
+                <div class="full">
+                    <label>Brand Primary Color</label>
+                    <input type="color" id="in-color" value="#1a3a5f" oninput="update()">
+                </div>
+                <div class="full">
+                    <label>Sender Name</label>
+                    <input type="text" id="in-sender-name" value="Saad Abdur Razzaq" oninput="update()">
+                </div>
+                <div class="full">
+                    <label>Professional Title</label>
+                    <input type="text" id="in-sender-title" value="CTO & COO, Effixly" oninput="update()">
+                </div>
+                <div class="full">
+                    <label>Sender Address / Origin</label>
+                    <input type="text" id="in-sender-addr" value="Faisalabad, Pakistan" oninput="update()">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>2. Client Details</h2>
+            <label>Client Name / Company</label>
             <input type="text" id="in-client-name" value="AECORA IT GmbH" oninput="update()">
-            <label>Address & VAT</label>
+            <label>Client Address & Metadata</label>
             <textarea id="in-client-details" rows="3" oninput="update()">IZ NÖ-Süd, Str. 2, Obj. M6/7
 A-2355 Wr. Neudorf
 VAT No.: ATU70795516</textarea>
         </div>
 
         <div class="form-section">
-            <h2>Payment & Banking</h2>
+            <h2>3. Invoice Metadata</h2>
+            <div class="row">
+                <div>
+                    <label>Invoice #</label>
+                    <input type="text" id="in-inv-num" value="#EFF-2026-001" oninput="update()">
+                </div>
+                <div>
+                    <label>Currency Symbol</label>
+                    <input type="text" id="in-currency" value="USD" oninput="update()">
+                </div>
+                <div class="full">
+                    <label>Service Description</label>
+                    <input type="text" id="in-project" value="AI Automation - Milestone 3" oninput="update()">
+                </div>
+                <div class="full">
+                    <label>Total Amount</label>
+                    <input type="text" id="in-price" value="500.00" oninput="update()">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>4. Banking (Fully Dynamic)</h2>
             <label>Mode of Transfer</label>
             <input type="text" id="in-mode" value="Wise (Direct to Bank)" oninput="update()">
+            <label>Account Title</label>
+            <input type="text" id="in-acc-title" value="Saad Abdur Razzaq" oninput="update()">
             <label>IBAN</label>
             <input type="text" id="in-iban" value="PK17UNIL0109000341908508" oninput="update()">
-            <label>Swift Code</label>
+            <label>Swift/BIC</label>
             <input type="text" id="in-swift" value="UNILPKKA" oninput="update()">
-            <label>Bank Address</label>
-            <input type="text" id="in-bank-addr" value="UBL Main Branch, Faisalabad, Pakistan" oninput="update()">
+            <label>Bank Name & Branch</label>
+            <input type="text" id="in-bank-name" value="United Bank Limited (UBL), Faisalabad" oninput="update()">
         </div>
 
         <div class="form-section">
-            <h2>Project Details</h2>
-            <label>Description</label>
-            <input type="text" id="in-project" value="Performance Bonus - Milestone 3" oninput="update()">
-            <label>Amount (USD)</label>
-            <input type="text" id="in-price" value="$500.00 USD" oninput="update()">
-            <label>Deadline (Optional)</label>
-            <input type="text" id="in-deadline" placeholder="e.g. May 05, 2026" oninput="update()">
-        </div>
-
-        <div class="form-section">
-            <h2>Footer Presets</h2>
+            <h2>5. Dynamic Footer</h2>
             <select id="footer-presets" onchange="applyPreset()">
-                <option value="">-- Choose Footer --</option>
-                <option value="Final source code and documentation will be released immediately upon payment confirmation.">Option 1: Release Policy</option>
-                <option value="Thank you for your business and for recognizing our effort. We appreciate your partnership!">Option 2: Recognition</option>
+                <option value="">-- Choose Preset --</option>
+                <option value="Final source code and documentation will be released immediately upon payment confirmation.">Release Policy</option>
+                <option value="Thank you for recognizing our team's effort. We look forward to our continued partnership!">Gratitude</option>
             </select>
-            <textarea id="in-footer-text" rows="2" oninput="update()">Thank you for your business and for recognizing our effort.</textarea>
+            <textarea id="in-footer-text" rows="2" oninput="update()">Thank you for your business!</textarea>
         </div>
 
         <button class="btn-generate" onclick="window.print()">Download Invoice PDF</button>
@@ -141,20 +183,20 @@ VAT No.: ATU70795516</textarea>
     <div id="preview-container">
         <div id="invoice-paper">
             <div class="inv-header">
-                <img id="display-logo" src="https://via.placeholder.com/150x60?text=EFFIXLY" alt="Logo">
+                <img id="display-logo" src="https://via.placeholder.com/150x60?text=BRAND+LOGO" alt="Logo">
                 <div class="inv-type">
-                    <h1>INVOICE</h1>
-                    <p style="margin:0; font-weight:700;">#EFF-2026-003</p>
-                    <p style="margin:0; color:#94a3b8; font-size:12px;" id="out-date"></p>
+                    <h1 id="dyn-primary-text">INVOICE</h1>
+                    <p style="margin:0; font-weight:800;" id="out-inv-num"></p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8;" id="out-date"></p>
                 </div>
             </div>
 
             <div class="grid-2">
                 <div class="address-box">
                     <h3>From</h3>
-                    <p><strong>Saad Abdur Razzaq</strong></p>
-                    <p style="color:var(--accent-blue); font-weight:700; font-size:12px;">CTO & COO, Effixly</p>
-                    <p>Faisalabad, Pakistan</p>
+                    <p><strong><span id="out-sender-name"></span></strong></p>
+                    <p style="font-weight:700; font-size:12px;" id="out-sender-title"></p>
+                    <p id="out-sender-addr"></p>
                 </div>
                 <div class="address-box">
                     <h3>Bill To</h3>
@@ -163,53 +205,54 @@ VAT No.: ATU70795516</textarea>
                 </div>
             </div>
 
-            <div id="deadline-box" style="margin-bottom:20px; font-size:13px; display:none;">
-                <span style="color:var(--text-gray); text-transform:uppercase; font-size:10px; font-weight:800;">Project Deadline:</span>
-                <span id="out-deadline" style="margin-left:10px; font-weight:700; color:#e11d48;"></span>
-            </div>
-
             <table>
                 <thead>
                     <tr>
                         <th>Service Description</th>
-                        <th style="text-align: right;">Total Amount</th>
+                        <th style="text-align: right;">Total</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td id="out-project-desc" style="font-weight:600;"></td>
-                        <td id="out-price" style="text-align: right; font-weight:800;"></td>
+                        <td style="text-align: right; font-weight:800;">
+                            <span id="out-curr-symbol"></span> <span id="out-price"></span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div class="total-box">
-                <div class="total-row">
-                    <span>Amount Due</span>
-                    <span id="out-total"></span>
+            <div class="total-row">
+                <div class="total-content" id="dyn-total-bar">
+                    <span>Grand Total</span>
+                    <span><span id="out-curr-symbol2"></span> <span id="out-total"></span></span>
                 </div>
             </div>
 
-            <div class="banking-details">
-                <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--primary); margin-bottom:15px; border-bottom:1px solid #cbd5e1; padding-bottom:5px;">
-                    Electronic Transfer Instructions
+            <div class="banking-details" id="dyn-bank-bar">
+                <div style="font-size:10px; font-weight:800; text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid #cbd5e1; padding-bottom:5px;">
+                    Payment Instructions
                 </div>
                 <div class="bank-grid">
                     <div class="bank-item">
-                        <label>Transfer Via</label><br>
+                        <label>Transfer Method</label>
                         <span id="out-mode"></span>
                     </div>
                     <div class="bank-item">
-                        <label>Swift / BIC Code</label><br>
+                        <label>Account Title</label>
+                        <span id="out-acc-title-disp"></span>
+                    </div>
+                    <div class="bank-item">
+                        <label>IBAN</label>
+                        <span id="out-iban"></span>
+                    </div>
+                    <div class="bank-item">
+                        <label>Swift / BIC</label>
                         <span id="out-swift"></span>
                     </div>
                     <div class="bank-item" style="grid-column: span 2;">
-                        <label>Account IBAN (UBL Pakistan)</label><br>
-                        <span id="out-iban" style="font-family: monospace; letter-spacing:1px; background:white; padding:2px 5px;"></span>
-                    </div>
-                    <div class="bank-item" style="grid-column: span 2;">
-                        <label>Bank Address</label><br>
-                        <span id="out-bank-addr"></span>
+                        <label>Bank Name & Address</label>
+                        <span id="out-bank-name"></span>
                     </div>
                 </div>
             </div>
@@ -220,27 +263,40 @@ VAT No.: ATU70795516</textarea>
 
     <script>
         function update() {
-            // Text Inputs
+            // Update Colors
+            const color = document.getElementById('in-color').value;
+            document.documentElement.style.setProperty('--primary', color);
+            document.getElementById('dyn-primary-text').style.color = color;
+            document.getElementById('dyn-total-bar').style.borderColor = color;
+            document.getElementById('dyn-bank-bar').style.borderLeftColor = color;
+
+            // Identity
+            document.getElementById('out-sender-name').innerText = document.getElementById('in-sender-name').value;
+            document.getElementById('out-sender-title').innerText = document.getElementById('in-sender-title').value;
+            document.getElementById('out-sender-title').style.color = color;
+            document.getElementById('out-sender-addr').innerText = document.getElementById('in-sender-addr').value;
+
+            // Client
             document.getElementById('out-client-name').innerText = document.getElementById('in-client-name').value;
             document.getElementById('out-client-details').innerText = document.getElementById('in-client-details').value;
-            document.getElementById('out-project-desc').innerText = document.getElementById('in-project').value;
-            document.getElementById('out-price').innerText = document.getElementById('in-price').value;
-            document.getElementById('out-total').innerText = document.getElementById('in-price').value;
+
+            // Metadata & Money
+            document.getElementById('out-inv-num').innerText = document.getElementById('in-inv-num').value;
+            const currency = document.getElementById('in-currency').value;
+            document.getElementById('out-curr-symbol').innerText = currency;
+            document.getElementById('out-curr-symbol2').innerText = currency;
             
+            const price = document.getElementById('in-price').value;
+            document.getElementById('out-project-desc').innerText = document.getElementById('in-project').value;
+            document.getElementById('out-price').innerText = price;
+            document.getElementById('out-total').innerText = price;
+
             // Banking
             document.getElementById('out-mode').innerText = document.getElementById('in-mode').value;
+            document.getElementById('out-acc-title-disp').innerText = document.getElementById('in-acc-title').value;
             document.getElementById('out-iban').innerText = document.getElementById('in-iban').value;
             document.getElementById('out-swift').innerText = document.getElementById('in-swift').value;
-            document.getElementById('out-bank-addr').innerText = document.getElementById('in-bank-addr').value;
-
-            // Optional Deadline
-            const deadValue = document.getElementById('in-deadline').value;
-            if(deadValue) {
-                document.getElementById('deadline-box').style.display = 'block';
-                document.getElementById('out-deadline').innerText = deadValue;
-            } else {
-                document.getElementById('deadline-box').style.display = 'none';
-            }
+            document.getElementById('out-bank-name').innerText = document.getElementById('in-bank-name').value;
 
             // Footer
             document.getElementById('out-footer').innerText = document.getElementById('in-footer-text').value;
@@ -254,12 +310,12 @@ VAT No.: ATU70795516</textarea>
             }
         }
 
-        // Auto-date
+        // Set date
         document.getElementById('out-date').innerText = new Date().toLocaleDateString('en-US', { 
             year: 'numeric', month: 'long', day: 'numeric' 
         });
 
-        // Logo Upload
+        // Handle Image
         document.getElementById('logoInput').onchange = function (e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
@@ -268,7 +324,7 @@ VAT No.: ATU70795516</textarea>
             }
         }
 
-        // Initialize
+        // Run on start
         update();
     </script>
 </body>
