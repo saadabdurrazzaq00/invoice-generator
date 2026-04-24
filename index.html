@@ -1,66 +1,94 @@
+Since you are the **CTO & COO of Effixly**, your internal tools should look as sharp as the automations you build. I’ve overhauled the UI with a **Modern Dark Mode Editor** on the left and a **Sleek, High-Contrast Professional Invoice** on the right.
+
+I also added the **Swift Code** field, **Bank Address**, and the **Dynamic Footer Dropdown** you requested.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Effixly Professional Invoice Generator</title>
+    <title>Effixly | Premium Invoice Engine</title>
     <style>
-        :root { --primary-color: #1a3a5f; --bg-gray: #f8f9fa; --accent-blue: #0056b3; }
-        
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; background: #e0e0e0; height: 100vh; overflow: hidden; }
-        
-        /* Editor Sidebar */
-        #editor { width: 400px; background: #2c3e50; color: white; padding: 25px; overflow-y: auto; box-sizing: border-box; flex-shrink: 0; border-right: 5px solid var(--primary-color); }
-        #editor h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; font-size: 16px; margin-top: 25px; color: #ecf0f1; text-transform: uppercase; letter-spacing: 1px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 10px; color: #bdc3c7; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        input, textarea, select { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #34495e; background: #34495e; color: white; box-sizing: border-box; font-family: inherit; margin-bottom: 10px; }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent-blue); background: #3d566e; }
-        button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 15px; font-size: 14px; transition: background 0.3s; }
-        button:hover { background: #219150; }
-
-        /* Invoice Preview Area */
-        #preview-container { flex-grow: 1; display: flex; justify-content: center; padding: 40px 20px; overflow-y: auto; background: #525659; }
-        
-        #invoice-paper { 
-            width: 210mm; 
-            min-height: 297mm; 
-            background: white; 
-            padding: 20mm; 
-            box-shadow: 0 0 30px rgba(0,0,0,0.5); 
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+        :root { 
+            --primary: #1a3a5f; 
+            --accent: #00d2ff; 
+            --dark-bg: #0f172a; 
+            --editor-card: #1e293b;
+            --text-gray: #94a3b8;
         }
         
-        /* Invoice Header */
-        .inv-header { border-bottom: 4px solid var(--primary-color); padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        #display-logo { max-width: 180px; max-height: 80px; object-fit: contain; }
-        .inv-title-text { font-size: 32px; font-weight: 900; color: var(--primary-color); letter-spacing: 2px; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; margin: 0; display: flex; background: #0f172a; height: 100vh; color: white; }
         
-        /* Addresses */
-        .inv-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-        .address-box { font-size: 13px; line-height: 1.6; }
-        .address-label { color: var(--primary-color); font-weight: bold; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 8px; border-bottom: 1px solid #eee; }
+        /* --- PRO EDITOR SIDEBAR --- */
+        #editor { 
+            width: 420px; 
+            background: var(--dark-bg); 
+            padding: 30px; 
+            overflow-y: auto; 
+            box-sizing: border-box; 
+            border-right: 1px solid #334155;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+        }
+        
+        .brand-logo { font-size: 24px; font-weight: 800; margin-bottom: 30px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+        .brand-logo span { color: white; }
 
-        /* Table */
-        .section-title { font-size: 12px; font-weight: 800; color: var(--primary-color); margin: 25px 0 10px; text-transform: uppercase; border-left: 4px solid var(--primary-color); padding-left: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        table th { background: var(--bg-gray); color: var(--primary-color); text-align: left; padding: 12px; font-size: 12px; border-bottom: 2px solid var(--primary-color); }
-        table td { padding: 15px 12px; border-bottom: 1px solid #eee; font-size: 14px; }
-        .total-row { background: var(--bg-gray); font-weight: bold; font-size: 16px; color: var(--primary-color); }
+        .form-section { background: var(--editor-card); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
+        .form-section h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0; color: var(--accent); margin-bottom: 15px; }
+        
+        label { display: block; font-size: 11px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; }
+        input, textarea, select { 
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; 
+            background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 15px; font-size: 13px;
+            transition: all 0.3s;
+        }
+        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2); }
+        
+        .btn-generate { 
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); 
+            color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; 
+            font-size: 15px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.2s;
+        }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4); }
 
-        /* Payment Section */
-        .payment-section { margin-top: auto; padding: 20px; background: #f0f4f8; border-radius: 5px; border: 1px solid #d1d9e0; }
-        .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 12px; }
-        .method-badge { display: inline-block; padding: 4px 10px; background: var(--primary-color); color: white; border-radius: 20px; font-size: 10px; margin-top: 5px; }
+        /* --- PREVIEW AREA --- */
+        #preview-container { flex-grow: 1; display: flex; justify-content: center; padding: 40px; overflow-y: auto; background: #334155; }
+        
+        #invoice-paper { 
+            width: 210mm; min-height: 297mm; background: white; padding: 25mm; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); box-sizing: border-box; color: #1e293b;
+            display: flex; flex-direction: column; position: relative;
+        }
+        
+        /* --- INVOICE DESIGN --- */
+        .inv-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; }
+        #display-logo { max-width: 180px; filter: grayscale(100%) contrast(150%); }
+        .inv-type { text-align: right; }
+        .inv-type h1 { margin: 0; font-size: 40px; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .address-box h3 { font-size: 12px; text-transform: uppercase; color: var(--text-gray); border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px; }
+        .address-box p { margin: 0; font-size: 14px; line-height: 1.5; }
+
+        table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+        th { background: #f8fafc; text-align: left; padding: 15px; font-size: 12px; text-transform: uppercase; color: var(--text-gray); border-bottom: 2px solid var(--primary); }
+        td { padding: 20px 15px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
+        
+        .total-box { margin-left: auto; width: 250px; margin-top: 20px; }
+        .total-row { display: flex; justify-content: space-between; padding: 10px 0; font-weight: 700; font-size: 18px; color: var(--primary); border-top: 2px solid var(--primary); }
+
+        .banking-details { background: #f8fafc; padding: 25px; border-radius: 12px; margin-top: auto; border-left: 5px solid var(--primary); }
+        .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 13px; }
+        .bank-item label { color: var(--text-gray); font-size: 10px; margin-bottom: 4px; }
+        .bank-item span { font-weight: 700; color: var(--primary); }
+
+        #out-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #f1f5f9; text-align: center; font-style: italic; font-size: 13px; color: var(--text-gray); }
 
         @media print {
-            body { background: white; }
             #editor { display: none; }
             #preview-container { padding: 0; background: white; }
-            #invoice-paper { box-shadow: none; width: 100%; border: none; }
+            #invoice-paper { box-shadow: none; width: 100%; }
             @page { size: A4; margin: 0; }
         }
     </style>
@@ -68,150 +96,175 @@
 <body>
 
     <div id="editor">
-        <h2 style="margin-top:0">1. Identity & Logo</h2>
-        <div class="input-group">
-            <label>Logo Upload</label>
-            <input type="file" id="logoInput" accept="image/*">
-            <label>Your Name & Title</label>
-            <input type="text" id="in-sender-name" value="Saad Abdur Razzaq" oninput="update()">
-            <input type="text" id="in-sender-title" value="CTO & COO, Effixly" oninput="update()">
-        </div>
-
-        <h2>2. Bill To (Client)</h2>
-        <div class="input-group">
+        <div class="brand-logo">⚡ EFFIXLY <span>INVOICER</span></div>
+        
+        <div class="form-section">
+            <h2>Client Info</h2>
             <label>Company Name</label>
             <input type="text" id="in-client-name" value="AECORA IT GmbH" oninput="update()">
-            <label>Full Address & Tax Details</label>
-            <textarea id="in-client-details" rows="4" oninput="update()">IZ NÖ-Süd, Str. 2, Obj. M6/7
+            <label>Address & VAT</label>
+            <textarea id="in-client-details" rows="3" oninput="update()">IZ NÖ-Süd, Str. 2, Obj. M6/7
 A-2355 Wr. Neudorf
-VAT No.: ATU70795516
-CEO: Ing. Markus Matousek</textarea>
+VAT No.: ATU70795516</textarea>
         </div>
 
-        <h2>3. Payment Transfer Mode</h2>
-        <div class="input-group">
-            <label>Primary Transfer Mode</label>
-            <select id="in-mode" onchange="update()">
-                <option value="Wise (Direct to Bank)">Wise (Direct to Bank)</option>
-                <option value="Western Union">Western Union</option>
-                <option value="Direct SWIFT Wire">Direct SWIFT Wire</option>
-                <option value="Payoneer">Payoneer</option>
-            </select>
-            <label>Bank IBAN</label>
+        <div class="form-section">
+            <h2>Payment & Banking</h2>
+            <label>Mode of Transfer</label>
+            <input type="text" id="in-mode" value="Wise (Direct to Bank)" oninput="update()">
+            <label>IBAN</label>
             <input type="text" id="in-iban" value="PK17UNIL0109000341908508" oninput="update()">
-            <label>Bank SWIFT/BIC</label>
+            <label>Swift Code</label>
             <input type="text" id="in-swift" value="UNILPKKA" oninput="update()">
+            <label>Bank Address</label>
+            <input type="text" id="in-bank-addr" value="UBL Main Branch, Faisalabad, Pakistan" oninput="update()">
         </div>
 
-        <h2>4. Invoice Items</h2>
-        <div class="input-group">
+        <div class="form-section">
+            <h2>Project Details</h2>
             <label>Description</label>
             <input type="text" id="in-project" value="Performance Bonus - Milestone 3" oninput="update()">
-            <label>Amount</label>
+            <label>Amount (USD)</label>
             <input type="text" id="in-price" value="$500.00 USD" oninput="update()">
+            <label>Deadline (Optional)</label>
+            <input type="text" id="in-deadline" placeholder="e.g. May 05, 2026" oninput="update()">
         </div>
 
-        <button onclick="window.print()">PRINT TO PDF</button>
-        <p style="font-size: 9px; color: #bdc3c7; text-align: center; margin-top: 10px;">Select "Save as PDF" in the printer dialog.</p>
+        <div class="form-section">
+            <h2>Footer Presets</h2>
+            <select id="footer-presets" onchange="applyPreset()">
+                <option value="">-- Choose Footer --</option>
+                <option value="Final source code and documentation will be released immediately upon payment confirmation.">Option 1: Release Policy</option>
+                <option value="Thank you for your business and for recognizing our effort. We appreciate your partnership!">Option 2: Recognition</option>
+            </select>
+            <textarea id="in-footer-text" rows="2" oninput="update()">Thank you for your business and for recognizing our effort.</textarea>
+        </div>
+
+        <button class="btn-generate" onclick="window.print()">Download Invoice PDF</button>
     </div>
 
     <div id="preview-container">
         <div id="invoice-paper">
             <div class="inv-header">
-                <img id="display-logo" src="https://via.placeholder.com/180x80?text=EFFIXLY+TECH" alt="Logo">
-                <div class="inv-title-text">INVOICE</div>
-            </div>
-
-            <div class="inv-meta">
-                <div class="address-box">
-                    <span class="address-label">From:</span>
-                    <strong><span id="out-sender-name">Saad Abdur Razzaq</span></strong><br>
-                    <span id="out-sender-title" style="color:var(--accent-blue); font-weight: bold;">CTO & COO, Effixly</span><br>
-                    Faisalabad, Pakistan
-                </div>
-                <div class="address-box">
-                    <span class="address-label">Bill To:</span>
-                    <strong><span id="out-client-name">AECORA IT GmbH</span></strong><br>
-                    <span id="out-client-details" style="white-space: pre-line;">IZ NÖ-Süd, Str. 2, Obj. M6/7
-A-2355 Wr. Neudorf</span>
+                <img id="display-logo" src="https://via.placeholder.com/150x60?text=EFFIXLY" alt="Logo">
+                <div class="inv-type">
+                    <h1>INVOICE</h1>
+                    <p style="margin:0; font-weight:700;">#EFF-2026-003</p>
+                    <p style="margin:0; color:#94a3b8; font-size:12px;" id="out-date"></p>
                 </div>
             </div>
 
-            <div style="font-size: 13px; margin-bottom: 10px;">
-                <strong>Date:</strong> <span id="current-date"></span><br>
-                <strong>Invoice Number:</strong> #EFF-2026-088
+            <div class="grid-2">
+                <div class="address-box">
+                    <h3>From</h3>
+                    <p><strong>Saad Abdur Razzaq</strong></p>
+                    <p style="color:var(--accent-blue); font-weight:700; font-size:12px;">CTO & COO, Effixly</p>
+                    <p>Faisalabad, Pakistan</p>
+                </div>
+                <div class="address-box">
+                    <h3>Bill To</h3>
+                    <p><strong><span id="out-client-name"></span></strong></p>
+                    <p id="out-client-details" style="white-space: pre-line;"></p>
+                </div>
             </div>
 
-            <div class="section-title">Description of Services / Bonus</div>
+            <div id="deadline-box" style="margin-bottom:20px; font-size:13px; display:none;">
+                <span style="color:var(--text-gray); text-transform:uppercase; font-size:10px; font-weight:800;">Payment Deadline:</span>
+                <span id="out-deadline" style="margin-left:10px; font-weight:700; color:#e11d48;"></span>
+            </div>
+
             <table>
                 <thead>
                     <tr>
-                        <th>Service / Milestone Item</th>
-                        <th style="text-align: right;">Amount</th>
+                        <th>Service Description</th>
+                        <th style="text-align: right;">Total Amount</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td id="out-project-desc">Performance Bonus - Milestone 3</td>
-                        <td style="text-align: right; font-weight: bold;"><span id="out-price">$500.00 USD</span></td>
-                    </tr>
-                    <tr class="total-row">
-                        <td style="text-align: right;">Total Payable:</td>
-                        <td style="text-align: right;"><span id="out-total">$500.00 USD</span></td>
+                        <td id="out-project-desc" style="font-weight:600;"></td>
+                        <td id="out-price" style="text-align: right; font-weight:800;"></td>
                     </tr>
                 </tbody>
             </table>
 
-            <div class="payment-section">
-                <div class="section-title" style="margin-top: 0; border: none; padding: 0;">Payment Transfer Details</div>
-                <div class="payment-grid">
-                    <div>
-                        <label>Preferred Mode of Transfer</label>
-                        <strong><span id="out-mode">Wise (Direct to Bank)</span></strong><br>
+            <div class="total-box">
+                <div class="total-row">
+                    <span>Amount Due</span>
+                    <span id="out-total"></span>
+                </div>
+            </div>
+
+            <div class="banking-details">
+                <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--primary); margin-bottom:15px; border-bottom:1px solid #cbd5e1; padding-bottom:5px;">
+                    Electronic Transfer Instructions
+                </div>
+                <div class="bank-grid">
+                    <div class="bank-item">
+                        <label>Transfer Via</label><br>
+                        <span id="out-mode"></span>
                     </div>
-                    <div>
-                        <label>Bank Account Title</label>
-                        <strong>Saad Abdur Razzaq</strong><br>
-                        United Bank Limited (UBL)
+                    <div class="bank-item">
+                        <label>Swift / BIC Code</label><br>
+                        <span id="out-swift"></span>
                     </div>
-                    <div>
-                        <label>IBAN (International Bank Account Number)</label>
-                        <code style="background: white; padding: 2px 5px; border: 1px solid #ccc;"><span id="out-iban">PK17UNIL0109000341908508</span></code>
+                    <div class="bank-item" style="grid-column: span 2;">
+                        <label>Account IBAN (UBL Pakistan)</label><br>
+                        <span id="out-iban" style="font-family: monospace; letter-spacing:1px; background:white; padding:2px 5px;"></span>
                     </div>
-                    <div>
-                        <label>SWIFT / BIC Code</label>
-                        <strong><span id="out-swift">UNILPKKA</span></strong>
+                    <div class="bank-item" style="grid-column: span 2;">
+                        <label>Bank Address</label><br>
+                        <span id="out-bank-addr"></span>
                     </div>
                 </div>
             </div>
 
-            <div style="margin-top: 30px; font-size: 11px; color: #7f8c8d; text-align: center; line-height: 1.4;">
-                This invoice is issued by <strong>Effixly</strong> for professional services rendered.<br>
-                Thank you for your partnership and trust in our technical development team.
-            </div>
+            <div id="out-footer"></div>
         </div>
     </div>
 
     <script>
         function update() {
-            document.getElementById('out-sender-name').innerText = document.getElementById('in-sender-name').value;
-            document.getElementById('out-sender-title').innerText = document.getElementById('in-sender-title').value;
+            // Text Inputs
             document.getElementById('out-client-name').innerText = document.getElementById('in-client-name').value;
             document.getElementById('out-client-details').innerText = document.getElementById('in-client-details').value;
-            
             document.getElementById('out-project-desc').innerText = document.getElementById('in-project').value;
             document.getElementById('out-price').innerText = document.getElementById('in-price').value;
             document.getElementById('out-total').innerText = document.getElementById('in-price').value;
-
+            
+            // Banking
             document.getElementById('out-mode').innerText = document.getElementById('in-mode').value;
             document.getElementById('out-iban').innerText = document.getElementById('in-iban').value;
             document.getElementById('out-swift').innerText = document.getElementById('in-swift').value;
+            document.getElementById('out-bank-addr').innerText = document.getElementById('in-bank-addr').value;
+
+            // Optional Deadline
+            const deadValue = document.getElementById('in-deadline').value;
+            if(deadValue) {
+                document.getElementById('deadline-box').style.display = 'block';
+                document.getElementById('out-deadline').innerText = deadValue;
+            } else {
+                document.getElementById('deadline-box').style.display = 'none';
+            }
+
+            // Footer
+            document.getElementById('out-footer').innerText = document.getElementById('in-footer-text').value;
         }
 
-        // Set current date
-        const d = new Date();
-        document.getElementById('current-date').innerText = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        function applyPreset() {
+            const preset = document.getElementById('footer-presets').value;
+            if(preset) {
+                document.getElementById('in-footer-text').value = preset;
+                update();
+            }
+        }
 
+        // Auto-date
+        document.getElementById('out-date').innerText = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', month: 'long', day: 'numeric' 
+        });
+
+        // Logo Upload
         document.getElementById('logoInput').onchange = function (e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
@@ -219,7 +272,10 @@ A-2355 Wr. Neudorf</span>
                 reader.readAsDataURL(e.target.files[0]);
             }
         }
+
+        // Initialize
         update();
     </script>
 </body>
 </html>
+```
